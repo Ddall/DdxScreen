@@ -7,15 +7,19 @@
         <in>ColCtl.h</in>
         <in>RowCtl.cpp</in>
         <in>RowCtl.h</in>
-        <in>Tlc5940.cpp</in>
-        <in>Tlc5940.h</in>
         <in>astreroids.c</in>
         <in>completeArduscreen.pde</in>
         <in>tlc_config.h</in>
       </df>
+      <in>DdxCtl.cpp</in>
+      <in>DdxCtl.h</in>
       <in>DdxScreen.pde</in>
+      <in>FastDigital.h</in>
       <in>MatrixCtl.cpp</in>
       <in>MatrixCtl.h</in>
+      <in>Tlc5940.cpp</in>
+      <in>Tlc5940.h</in>
+      <in>params.h</in>
     </df>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

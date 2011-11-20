@@ -2,12 +2,9 @@
   How do you see me now?
 */
 
-// MATRIX DEFINITION
-#define MATRIX_HEIGHT 8
-#define MATRIX_WIDTH 8
-
-
 // EDIT Tlc5940.cpp -> SET NUM_TLCS
+#include "params.h"
+#include "FastDigital.h"
 #include <Tlc5940.h>
 #include "MatrixCtl.h"
 
@@ -18,5 +15,4 @@ void setup(){
 
 void loop(){
     Matrix.refresh();
-            
 }
