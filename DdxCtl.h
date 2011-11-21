@@ -9,7 +9,6 @@
 #define	DDXCTL_H
 
 
-
 class DdxCtl {
 public:
     DdxCtl();
