@@ -10,7 +10,6 @@
 #include "FastDigital.h"
 #include <Tlc5940.h>
 
-//modif LOL
  // ############ CONSTRUCTEUR ############
 
 DdxCtl::DdxCtl() {
