@@ -79,7 +79,6 @@ void DdxCtl::nextRow(){
     }
 
     this->setRow(m_currRow);
-    
 }
 
 void DdxCtl::toggleLatch(){

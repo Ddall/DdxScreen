@@ -16,11 +16,10 @@ public:
     void setBuffer(long *buffer);
 
 private:
- 
-    unsigned int m_width;
-    unsigned int m_height;
-    unsigned int m_currRow;
-    unsigned int m_rate;
+    int m_width;
+    int m_height;
+    int m_currRow;
+    int m_rate;
     long* m_buffer;
     
     // ROW CTL
