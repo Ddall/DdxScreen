@@ -1,42 +1,35 @@
 /* 
  * File:   DdxCtl.h
- * Author: Allan
+ * Author: info03
  *
- * Created on 20 novembre 2011, 16:55
+ * Created on 30 novembre 2011, 09:56
  */
 
 #ifndef DDXCTL_H
 #define	DDXCTL_H
 
-
-
 class DdxCtl {
 public:
     DdxCtl();
-
-    // MATRIX CTL
-    void setBuffer();
-    void refresh();
-    void setRate(int rate);
-    void turnOff();
     
+    void refresh();
+    void setBuffer(long *buffer);
 
 private:
-    // ATTIBUTES
-    int m_width;
-    int m_height;
-    int m_currRow;
-    int m_rate;
-    long* buffer[MATRIX_HEIGHT][MATRIX_WIDTH];
-
+ 
+    unsigned int m_width;
+    unsigned int m_height;
+    unsigned int m_currRow;
+    unsigned int m_rate;
+    long* m_buffer;
+    
     // ROW CTL
-    void setRow(const int nRow );
+    void setRow(int nRow);
     void nextRow();
-    void setNoRow();
-        // LOW LEVEL STUFFS
-        void toggleLatch();
-//        void shiftOut();
-
+    void toggleLatch();
+    void turnOff();
+    
+    
     // COLOR CTL
     void setColor(int nLed, long hexColor);
     void updateRow();
@@ -44,3 +37,4 @@ private:
 };
 
 #endif	/* DDXCTL_H */
+

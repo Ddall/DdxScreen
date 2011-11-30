@@ -1,17 +1,18 @@
 /* 
  * File:   DdxCtl.cpp
- * Author: Allan
+ * Author: info03
  * 
- * Created on 20 novembre 2011, 16:55
+ * Created on 30 novembre 2011, 09:56
  */
-#include "params.h"
+
 #include "DdxCtl.h"
-#include <wiring_shift.c> // shiftOut / digitalWrite DEFINITION
-#include "FastDigital.h"
-#include <Tlc5940.h>
+#include "params.h"
+#include <FastDigital.h>
+#include "Tlc5940.h"
+#include <wiring_shift.c>
 
- // ############ CONSTRUCTEUR ############
 
+// PUBLIC
 DdxCtl::DdxCtl() {
     m_width = MATRIX_WIDTH;
     m_height = MATRIX_HEIGHT;
@@ -19,20 +20,35 @@ DdxCtl::DdxCtl() {
     m_rate = MATRIX_REFRESH_RATE;
     m_currRow = 0;
     
-    pinModeFast(LATCHPIN, OUTPUT);
-    digitalWriteFast(LATCHPIN, HIGH);
-}
-
-// ############ MATRIX CTL ############
-
-DdxCtl::refresh(){
+    m_buffer = 0;
     
+ // TODO FIX THESE TWO!!
+ //   pinModeFast(LATCHPIN, OUTPUT);
+ //   digitalWriteFast(LATCHPIN, HIGH);
 }
 
+void DdxCtl::refresh(){
+    for(int y = 0; y < MATRIX_HEIGHT; y++){  // CYCLE ROWS
+        
+        for(int x = 0; x < MATRIX_WIDTH; x++){ // CYCLE LEDS
+           // setColor(x, m_buffer[y][x]);
+        }
+        
+        //delayMicroseconds() // NEED TO WAIT?
+        
+        turnOff(); // TURNS THE ROW OFF DURING UPDATE
+        Tlc.update();
+        while(Tlc.updateInProgress()); // WAIT FOR UPDATE TO FINISH (USING HARDWARE SPI MAKE Tlc.update(); ASYNCHRONOUS
+        setRow(y); // TURN THE NEW UP
+    }
+}
 
-// ############ ROW CTL ############
+void DdxCtl::setBuffer(long *buffer){
+    m_buffer = buffer;
+}
 
-DdxCtl::setRow(const int nRow){
+// ROW CTL
+void DdxCtl::setRow(int nRow){
     // SELECT THE REGISTER
     //PUSH DATA (MSBFIRST == LAST REGISTER FIRST!!!)
     if(nRow < 8){ // REGISTER #1 DRIVES ROWS 0 to 7, 
@@ -54,25 +70,28 @@ DdxCtl::setRow(const int nRow){
     // TOGGLE THE LATCH PIN TO UPDATE ROWS
     this->toggleLatch();
     
-    m_currRow = nRow;
+    m_currRow = nRow;    
 }
 
-DdxCtl::nextRow(){
-    if(m_currRow < MATRIX_HEIGHT){
-        m_currRow++;
-    }else{
+void DdxCtl::nextRow(){
+    if(m_currRow < m_height){
         m_currRow = 0;
     }
-    
+
     this->setRow(m_currRow);
+    
 }
 
-DdxCtl::toggleLatch(){
-    digitalWriteFast(LATCHPIN, LOW);
-    digitalWriteFast(LATCHPIN, HIGH);
+void DdxCtl::toggleLatch(){
+    // TODO FIX THESE
+    // digitalWriteFast(LATCHPIN, LOW);
+    // digitalWriteFast(LATCHPIN, HIGH);
+    
+    digitalWrite(LATCHPIN, LOW);
+    digitalWrite(LATCHPIN, HIGH);
 }
 
-DdxCtl::setNoRow(){
+void DdxCtl::turnOff(){
     shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, 0);
     shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, 0);
     shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, 0);
@@ -80,20 +99,11 @@ DdxCtl::setNoRow(){
     this->toggleLatch();
 }
 
-DdxCtl::setRate(int rate){
+// COLOR CTL
+void DdxCtl::setColor(int nLed, long hexColor){
     
 }
 
-// ############ COLOR CTL ############
-
-DdxCtl::setColor(int nLed, long hexColor){
-    // WARNING MODIFIER CES VALEURS SUR L'HARDWARE FINAL
+void DdxCtl::updateRow(){
     
-    Tlc.set(nLed, ((hexColor >> 16) & 0xFF) * MAX_RED);
-    Tlc.set(nLed+16,((hexColor >> 8) & 0xFF) * MAX_GREEN);
-    Tlc.set(nLed+32,(hexColor & 0xFF) * MAX_BLUE);
-}
-
-DdxCtl::updateRow(){
-    Tlc.update();
 }

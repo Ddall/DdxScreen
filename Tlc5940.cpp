@@ -162,9 +162,10 @@ int Tlc5940::update(void)
 	if (tlc_needXLAT){
 		return 1; 
 	}
+	pulse_pin(SCLK_PORT, SCLK);
 	
 	//TODO use Interrupt driven SPI for a non-blocking performance boost - this could get tricky when mixed with DC updates
-	putsSPI2(6*NUM_TLCS, tlc_GSData);
+	putsSPI2(6 * NUM_TLCS, tlc_GSData);
 
 	// Wait for buffers to be emptied
 	while(SpiChnIsBusy(SPI_CHANNEL2));
@@ -184,7 +185,7 @@ int Tlc5940::update(void)
     \see get */
 void Tlc5940::set(int channel, int value)
 {
-	if (channel < 0 || channel > NUM_TLCS*16){
+	if (channel < 0 || channel >= NUM_TLCS*16){
 		return;
 	}
 	if (value < 0 || value > 4095){
@@ -492,15 +493,19 @@ extern "C"	// So c++ doesn't mangle the function names
 			
 		mOC4ClearIntFlag();
 
+
+/*
 		// If VPRG is High, then we just programmed DC
 		if (outputState(VPRG_PORT, VPRG)){
 			setLow(VPRG_PORT, VPRG);
 			pulse_pin(SCLK_PORT, SCLK);
 		}
+		*/
 		
 		if (tlc_onUpdateFinished) {
 		    tlc_onUpdateFinished();
 		}
+		//OpenTimer2(T2_ON | T2_PS_1_4, 0x3);
 	}
 
 #ifdef __cplusplus

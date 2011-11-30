@@ -16,6 +16,7 @@
 // #####ROW CTL#####
     // shiftOut / digitalWrite DEFINITION
 //    #include <wiring_shift.c> // NO NEED...
+    #include <FastDigital.h>
 
     // SHIFT REGISTER WIRING CONFIGURATION
     #define DATAPIN 5 // BLU WIRE
