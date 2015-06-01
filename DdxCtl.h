@@ -28,7 +28,6 @@ private:
     void toggleLatch();
     void turnOff();
     
-    
     // COLOR CTL
     void setColor(int nLed, long hexColor);
     void updateRow();
